@@ -7,10 +7,10 @@ import java.util.List;
 public interface UserComputeAPI {
 	
 	/**
-	 * Ask the ComputeEngine to calculate the GCD from an input source
+	 * Ask the ComputeEngine to calculate the factors from an input source
 	 * and writes the result to an output source
 	 */
-	List<Integer> computeGCD(String inputSource, 
+	List<Integer> computeFactors(String inputSource, 
 							 String outputSource,
 							 String delimiter);
 }

@@ -9,19 +9,17 @@ public class StorageComputeAPIPrototype {
 	@ProcessAPIPrototype
 	public void prototype(StorageComputeAPI storage) {
 		
-		//Reads the input. If no input, add nums for testing
-		List<Integer> input = storage.readInput();
-		if (input == null) {
-			input = new ArrayList<>();
-			input.add(48);
-			input.add(18);
-		}
+		//Reads the input. If no input, add test value.
+		List<Integer> input = (storage != null) ? storage.readInput() : null;
 		
-		//Assume we computed the GCD (48,18 -> 6)
+		int n = (input != null && !input.isEmpty()) ? input.get(0) : 48;
+		
+		//Assume we computed the factors (fake results).
 		List<Integer> output = new ArrayList<>();
-        output.add(6);
+		output.add(1); output.add(2); output.add(3); output.add(4); output.add(6);
+        output.add(8); output.add(12); output.add(16); output.add(24); output.add(48);
         
-        //Send result back to storage
+        //Send result back to storage WITH delimiter.
         storage.writeOutput(output, ";");
 	}
 }

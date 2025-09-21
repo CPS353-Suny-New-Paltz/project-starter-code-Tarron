@@ -13,11 +13,11 @@ public final class UserComputeAPIPrototype {
 		String outputSource = null;
 		String delimiter = ";";
 		
-		//Takes the inputs, computes the GCD, returns results
-		List<Integer> results = user.computeGCD(inputSource, outputSource, delimiter);
+		//computeFactors call, null check.
+		List<Integer> results = (user != null) ? user.computeFactors(inputSource, outputSource, delimiter) : null;
 		
-		//Return if there's a result. No result returns a empty list
-		return results != null ? results : new ArrayList<>();
+		//Return if there's a result. No result returns a empty list.
+		return (results != null) ? results : new ArrayList<>();
 	}
 	
 }
