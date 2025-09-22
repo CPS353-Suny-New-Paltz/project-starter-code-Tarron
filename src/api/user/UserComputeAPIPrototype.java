@@ -1,0 +1,23 @@
+package api.user;
+
+import java.util.List;
+import java.util.ArrayList;
+import project.annotations.NetworkAPIPrototype;
+
+public final class UserComputeAPIPrototype {
+	
+	@NetworkAPIPrototype
+	public List<Integer> prototype(UserComputeAPI user) {
+		
+		String inputSource = null;
+		String outputSource = null;
+		String delimiter = ";";
+		
+		//computeFactors call, null check.
+		List<Integer> results = (user != null) ? user.computeFactors(inputSource, outputSource, delimiter) : null;
+		
+		//Return if there's a result. No result returns a empty list.
+		return (results != null) ? results : new ArrayList<>();
+	}
+	
+}
