@@ -29,3 +29,10 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+// *** Ensure Gradle compiles with Java 17 no matter your local JDK ***
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
