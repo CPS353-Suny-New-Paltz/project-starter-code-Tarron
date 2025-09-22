@@ -19,7 +19,7 @@ public class StorageComputeAPIPrototype {
 		output.add(1); output.add(2); output.add(3); output.add(4); output.add(6);
         output.add(8); output.add(12); output.add(16); output.add(24); output.add(48);
         
-        //Send result back to storage WITH delimiter.
+        //Send result back to storage.
         storage.writeOutput(output, ";");
 	}
 }
