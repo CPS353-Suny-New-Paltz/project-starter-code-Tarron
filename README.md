@@ -1,5 +1,3 @@
-# Software Engineering Project Starter Code
-
 # Computation Description
 The system will compute the factors of a given postiive integer. 
 Eaxmple:
