@@ -7,5 +7,5 @@ Input: 48
 Output: 1, 2, 3, 4, 6, 8, 12, 16, 24, 48
 
 # System Design Diagram
-![System Design Diagram](https://github.com/TarronSmith/project-starter-code-Tarron/blob/main/Completed%20System%20Diagram.jpg?raw=true)
+![System Design Diagram](https://github.com/CPS353-Suny-New-Paltz/project-starter-code-Tarron/blob/main/Completed%20System%20Diagram.jpg)
 
