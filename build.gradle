@@ -30,8 +30,8 @@ test {
     useJUnitPlatform()
     
     filter {
-    excludeTestMatching "tests.TestComputeEngineAPI.smoke"
-    excludeTestMatching "tests.TestStorageComputeAPI.smoke"
-    excludeTestMatching "tests.TestUserComputeAPI.smoke"
+    excludeTestsMatching "tests.TestComputeEngineAPI.smoke"
+    excludeTestsMatching "tests.TestStorageComputeAPI.smoke"
+    excludeTestsMatching "tests.TestUserComputeAPI.smoke"
     }
 }
