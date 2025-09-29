@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 public class TestUserComputeAPI {
 
 	@Test
-	void smoke () {
+	void smoke() {
 		//Creating our fake object
 		UserComputeAPI userAPI = mock(UserComputeAPI.class);
 		

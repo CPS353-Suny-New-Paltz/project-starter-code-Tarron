@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 public class TestStorageComputeAPI {
 
 	@Test
-	void smoke () {
+	void smoke() {
 		//Creating our fake object
 		StorageComputeAPI storage = mock(StorageComputeAPI.class);
 		
