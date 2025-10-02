@@ -13,7 +13,7 @@ public class StorageComputeImpl implements StorageComputeAPI {
 	}
 
 	@Override
-	public int writeOutput(List<Integer> numbers, String delimiter, String outputTarget) {
+	public int writeOutput(List<Integer> numbers, String delimiter) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

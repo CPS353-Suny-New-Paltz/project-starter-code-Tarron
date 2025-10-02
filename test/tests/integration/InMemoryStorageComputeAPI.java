@@ -15,7 +15,7 @@ public final class InMemoryStorageComputeAPI implements StorageComputeAPI {
 
 	//Reads input numbers from config
 	@Override
-	public List<Integer> readInput() {
+	public List<Integer> readInput(String inputSource) {
 		return cfg.input();
 	}
 
