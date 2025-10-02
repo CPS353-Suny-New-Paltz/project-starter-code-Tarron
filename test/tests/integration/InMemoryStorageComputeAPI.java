@@ -1,5 +1,7 @@
 package tests.integration;
 
+import java.util.stream.Collectors;
+
 import api.process.StorageComputeAPI;
 import java.util.List;
 
