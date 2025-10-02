@@ -28,7 +28,7 @@ public class ComputeEngineIntegrationTest {
 		ComputeEngineAPI engine = new ComputeEngineImpl();
 		
 		//Reads inputs, computes the factor for each, writes them to output
-		List<Integer> inputs = store.readInput();
+		List<Integer> inputs = store.readInput("input");
 		for(Integer n : inputs) {
 			List<Integer> factors = engine.factors(n);
 			store.writeOutput(factors == null ? List.of() : factors, null);	

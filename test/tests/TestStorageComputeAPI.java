@@ -24,11 +24,12 @@ public class TestStorageComputeAPI {
 		//Creats input data
 		List<Integer> inputs = List.of(12, 18, 48);
 		
+		String source = "input";
 		//Returns inputs list on call
-		when(storage.readInput()).thenReturn(inputs);
+		when(storage.readInput(source)).thenReturn(inputs);
 		
 		//Calls mock method, returns [12, 18, 48]
-		List<Integer> read = storage.readInput();
+		List<Integer> read = storage.readInput(source);
 		
 		//Wont actually write anything, but Mockito will track call 
 		storage.writeOutput(read, ",");
@@ -37,7 +38,7 @@ public class TestStorageComputeAPI {
 		assertEquals(inputs, read);
 		
 		//Confirms both methods were called
-		verify(storage).readInput();
+		verify(storage).readInput(source);
 		verify(storage).writeOutput(inputs, ",");
 	}	
 }
