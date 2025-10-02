@@ -25,12 +25,12 @@ public class ComputeEngineIntegrationTest {
 		//Sets up fake config, storage, and engine for the test
 		InMemoryIOConfig cfg = new InMemoryIOConfig(List.of(1, 10, 25));
 		InMemoryStorageComputeAPI store = new InMemoryStorageComputeAPI(cfg);
-		ComoputeEngineAPI engine = new ComputeEngineImpl();
+		ComputeEngineAPI engine = new ComputeEngineImpl();
 		
 		//Reads inputs, computes the factor for each, writes them to output
-		List<Integers> ipnuts = store.readInput();
+		List<Integer> inputs = store.readInput();
 		for(Integer n : inputs) {
-			List<Integers> factors = engine.factors(n);
+			List<Integer> factors = engine.factors(n);
 			store.writeOutput(factors == null ? List.of() : factors, null);	
 		}
 		
