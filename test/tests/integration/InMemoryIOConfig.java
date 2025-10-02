@@ -10,8 +10,8 @@ public final class InMemoryIOConfig {
 	
 	//Store input list
 	public InMemoryIOConfig(List<Integer> input){
-		this.input = new.ArrayList<>(input == null ? List.of() : input);
-		this.output = new.ArrayList<>();
+		this.input = new ArrayList<>(input == null ? List.of() : input);
+		this.output = new ArrayList<>();
 	}
 	
 	//Get test input data

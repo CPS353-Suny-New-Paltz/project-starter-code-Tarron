@@ -10,7 +10,7 @@ public final class InMemoryStorageComputeAPI implements StorageComputeAPI {
 
 	//Hooks up the config
 	public InMemoryStorageComputeAPI(InMemoryIOConfig cfg) {
-		this.cfg;
+		this.cfg = cfg;
 	}
 
 	//Reads input numbers from config
