@@ -1,25 +1,23 @@
 package tests;
 
 import api.user.UserComputeAPI;
-import org.junit.jupiter.api.DisplayName;
+import impl.UserComputeImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
 public class TestUserComputeAPI {
 
 	@Test
 	void smoke() {
+		new UserComputeImpl();
+		
 		//Creating our fake object
-		UserComputeAPI userAPI = mock(UserComputeAPI.class);
+		UserComputeAPI userAPI = new UserComputeImpl();
 		
 		//If method is called with these args, return list [1, 2, 3, 4]
 		when(userAPI.computeFactors("input.txt", "output.txt", ",")).thenReturn(List.of(1, 2, 3, 4));
