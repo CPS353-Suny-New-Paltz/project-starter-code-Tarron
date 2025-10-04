@@ -2,10 +2,9 @@ package tests.integration;
 
 import api.compute.ComputeEngineAPI;
 import impl.ComputeEngineImpl;
-import tests.integration.InMemoryIOConfig;
-import tests.integration.InMemoryStorageComputeAPI;
+import api.user.UserComputeAPI;
+import impl.UserComputeImpl;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,6 +21,8 @@ public class ComputeEngineIntegrationTest {
 
 	@Test
 	void integrate_1_10_25() {
+		UserComputeAPI user = new UserComputeImpl();
+		
 		//Sets up fake config, storage, and engine for the test
 		InMemoryIOConfig cfg = new InMemoryIOConfig(List.of(1, 10, 25));
 		InMemoryStorageComputeAPI store = new InMemoryStorageComputeAPI(cfg);
