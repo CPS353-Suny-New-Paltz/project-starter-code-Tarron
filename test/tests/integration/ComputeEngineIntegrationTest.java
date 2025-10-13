@@ -21,19 +21,15 @@ public class ComputeEngineIntegrationTest {
 
 	@Test
 	void integrate_1_10_25() {
-		UserComputeAPI user = new UserComputeImpl();
 		
 		//Sets up fake config, storage, and engine for the test
 		InMemoryIOConfig cfg = new InMemoryIOConfig(List.of(1, 10, 25));
 		InMemoryStorageComputeAPI store = new InMemoryStorageComputeAPI(cfg);
 		ComputeEngineAPI engine = new ComputeEngineImpl();
-		
-		//Reads inputs, computes the factor for each, writes them to output
-		List<Integer> inputs = store.readInput("input");
-		for(Integer n : inputs) {
-			List<Integer> factors = engine.factors(n);
-			store.writeOutput(factors == null ? List.of() : factors, null);	
-		}
+		UserComputeAPI user = new UserComputeImpl(store, engine);
+
+		var factors = user.computeFactors("input", "output", ",");
+		store.writeOutput(factors, ",");
 		
 		//What we expect once the engine is implemented
 		List<String> expected = List.of("1","2,5","5,5");
