@@ -7,29 +7,25 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
+/**
+ * Tests the real ComputeEngineImpl.
+ * 
+ * This verifies that the factorization logic works correctly.
+ */
 public class TestComputeEngineAPI {
 
 	@Test
 	void smoke() {	
-		new ComputeEngineImpl();
-		
-		//Creates a fake object that behaves like ComputeEngineAPI
-		ComputeEngineAPI engine = mock(ComputeEngineAPI.class);
 
-		//If I ask for factors(12), returns the list [2, 2, 3]
-		when(engine.factors(12)).thenReturn(List.of(2, 2, 3));
+		ComputeEngineAPI engine = new ComputeEngineImpl();
 
-		//We call our fake object
-		List<Integer> result = engine.factors(12);
+		//Call the REAL method
+		var factors = engine.factors(12);
 
-		//Checks if returned list matches expected result 
-		assertEquals(List.of(2, 2, 3), result);
-
-		//Just checks to make sure the method was called with the input 12
-		verify(engine).factors(12);
+		assertNotNull(factors);
+		assertEquals(List.of(2, 2, 3), factors);
 	}
 }
