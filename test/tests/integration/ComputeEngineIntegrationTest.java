@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Input: [1, 10, 25]
- * Expected: "1", "2,5", "5,5"
+ * Expected: "1", "1,2,5,10", "1,5,25"
  *
  * NOTE: This test will FAIL as of now, since ComputeEngineImpl.factors() isnt actually implemented yet.
  */
@@ -29,10 +29,9 @@ public class ComputeEngineIntegrationTest {
 		UserComputeAPI user = new UserComputeImpl(store, engine);
 
 		var factors = user.computeFactors("input", "output", ",");
-		store.writeOutput(factors, ",");
 		
 		//What we expect once the engine is implemented
-		List<String> expected = List.of("1","2,5","5,5");
+		List<String> expected = List.of("1","1,2,5,10","1,5,25");
 		assertEquals(expected, cfg.output());
 	}
 }

@@ -30,11 +30,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    
-    filter {
-    excludeTestsMatching "tests.integration.ComputeEngineIntegrationTest"
-    excludeTestsMatching "tests.TestComputeEngineAPI.smoke"
-    excludeTestsMatching "tests.TestStorageComputeAPI.smoke"
-    excludeTestsMatching "tests.TestUserComputeAPI.smoke"
-    }
 }
