@@ -23,9 +23,8 @@ public class TestComputeEngineAPI {
 		ComputeEngineAPI engine = new ComputeEngineImpl();
 
 		//Call the REAL method
-		var factors = engine.factors(12);
+		List<Integer> result = engine.factors(12);
 
-		assertNotNull(factors);
-		assertEquals(List.of(2, 2, 3), factors);
+		assertEquals(List.of(1, 2, 3, 4, 6, 12), result);
 	}
 }
