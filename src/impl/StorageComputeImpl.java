@@ -10,25 +10,33 @@ import java.util.regex.Pattern;
 import api.process.StorageComputeAPI;
 
 public class StorageComputeImpl implements StorageComputeAPI {
-	
+
 	private static final Pattern SPLIT = Pattern.compile("[,\\s]+");
 
 
 	@Override
 	public List<Integer> readInput(String inputSource) {
+		if (inputSource == null || inputSource.isBlank()) {
+			throw new IllegalArgumentException("inputSource must be a non-empty file name");
+		}
+
 		try {
-            String content = Files.readString(Path.of(inputSource));
-            return SPLIT.splitAsStream(content.trim())
-                        .filter(s -> !s.isEmpty())       // defensive
-                        .map(Integer::parseInt)
-                        .collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read input: " + inputSource, e);
-        }
+			String content = Files.readString(Path.of(inputSource));
+			return SPLIT.splitAsStream(content.trim())
+					.filter(s -> !s.isEmpty())       
+					.map(Integer::parseInt)
+					.collect(Collectors.toList());
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to read input: " + inputSource, e);
+		}
 	}
 
 	@Override
 	public int writeOutput(List<Integer> numbers, String delimiter) {
+		if (numbers == null) {
+			throw new IllegalArgumentException("numbers must not be null");
+		}
+
 		try {
 			//Convert each integer to a string, then join them together with the given delimiter.
 			//Ex: numbers = [2, 3, 5, 7], delimiter = ","  ->  "2,3,5,7"
