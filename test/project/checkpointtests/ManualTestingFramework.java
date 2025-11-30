@@ -22,17 +22,9 @@ public class ManualTestingFramework {
 			ComputeEngineAPI  engine  = new ComputeEngineImpl();
 			UserComputeAPI    user    = new UserComputeImpl(storage, engine);
 
-			List<Integer> inputs = storage.readInput(INPUT);
+			user.computeFactors(INPUT, OUTPUT, ",");
 
-			List<Integer> onePerInput = new ArrayList<>();
-			for (int n : inputs) {
-				List<Integer> f = engine.factors(n);
-				onePerInput.add(f.size());   
-			}
-
-			String line = onePerInput.stream()
-					.map(String::valueOf)
-					.collect(java.util.stream.Collectors.joining(","));
+            System.out.println("Manual test completed successfully.");
 		} catch (Exception e) {
 			System.err.println("Manual test failed: " + e.getMessage());
 		}
