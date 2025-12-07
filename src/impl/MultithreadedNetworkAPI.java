@@ -12,15 +12,12 @@ import java.util.concurrent.Executors;
 import api.compute.ComputeEngineAPI;
 import api.process.StorageComputeAPI;
 import api.user.UserComputeAPI;
-import impl.ComputeEngineImpl;
-import impl.StorageComputeImpl;
-import impl.UserComputeImpl;
 
 public class MultithreadedNetworkAPI implements UserComputeAPI {
 
 	private final UserComputeAPI delegate;
 	//Upper bound on concurrent conceptual API call
-	private static final int MAX_THREADS = 4;
+	private static final int maxThreads = 4;
 	//newFixedThreadPool to limit concurrency
 	private final ExecutorService executor;
 
@@ -28,7 +25,7 @@ public class MultithreadedNetworkAPI implements UserComputeAPI {
 		StorageComputeAPI storage = new StorageComputeImpl();
 		ComputeEngineAPI engine = new ComputeEngineImpl();
 		this.delegate = new UserComputeImpl(storage, engine);
-		this.executor = Executors.newFixedThreadPool(MAX_THREADS);
+		this.executor = Executors.newFixedThreadPool(maxThreads);
 	}
 
 
