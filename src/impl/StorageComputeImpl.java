@@ -16,10 +16,10 @@ public class StorageComputeImpl implements StorageComputeAPI {
 
 	@Override
 	public List<Integer> readInput(String inputSource) {
-		if (inputSource == null || inputSource.isBlank()) {
-			throw new IllegalArgumentException("inputSource must be a non-empty file name");
-		}
-
+		 if (inputSource == null || inputSource.isBlank()) {
+		        return List.of();
+		    }
+		 
 		try {
 			String content = Files.readString(Path.of(inputSource));
 			return SPLIT.splitAsStream(content.trim())
@@ -27,22 +27,24 @@ public class StorageComputeImpl implements StorageComputeAPI {
 					.map(Integer::parseInt)
 					.collect(Collectors.toList());
 		} catch (IOException e) {
-			throw new RuntimeException("Failed to read input: " + inputSource, e);
+			 return List.of();
 		}
 	}
 
 	@Override
 	public int writeOutput(List<Integer> numbers, String delimiter) {
 		if (numbers == null) {
-			throw new IllegalArgumentException("numbers must not be null");
+			 numbers = List.of();
 		}
+		
+		 String d = (delimiter == null) ? "," : delimiter;
 
 		try {
 			//Convert each integer to a string, then join them together with the given delimiter.
 			//Ex: numbers = [2, 3, 5, 7], delimiter = ","  ->  "2,3,5,7"
 			String output = numbers.stream()
 					.map(Object::toString)
-					.collect(Collectors.joining(delimiter));
+					.collect(Collectors.joining(d));
 
 			//Write the output string to a file
 			Files.writeString(Path.of("output.txt"), output);
@@ -52,7 +54,7 @@ public class StorageComputeImpl implements StorageComputeAPI {
 
 		} catch (IOException e) {
 			//If something goes wrong while writing, throw a runtime exception
-			throw new RuntimeException("Failed to write output file", e);
+	        return 0;
 		}
 	}
 }

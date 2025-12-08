@@ -26,12 +26,11 @@ public class UserComputeImpl implements UserComputeAPI {
 	@Override
 	public List<Integer> computeFactors(String inputSource, String outputSource, String delimiter) {
 		if (inputSource == null || inputSource.isBlank()) {
-			throw new IllegalArgumentException("inputSource must be a non-empty file name");
+			return List.of();
 		}
 		if (outputSource == null || outputSource.isBlank()) {
-			throw new IllegalArgumentException("outputSource must be a non-empty file name");
+			return List.of();
 		}
-
 		String effectiveDelimiter =
 				(delimiter == null || delimiter.isEmpty()) ? "," : delimiter;
 
