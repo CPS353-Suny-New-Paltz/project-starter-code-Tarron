@@ -17,7 +17,7 @@ public class MultithreadedNetworkAPI implements UserComputeAPI {
 
 	private final UserComputeAPI delegate;
 	//Upper bound on concurrent conceptual API call
-	private static final int maxThreads = 4;
+	private static final int MAX_THREADS = 4;
 	//newFixedThreadPool to limit concurrency
 	private final ExecutorService executor;
 
@@ -25,7 +25,7 @@ public class MultithreadedNetworkAPI implements UserComputeAPI {
 		StorageComputeAPI storage = new StorageComputeImpl();
 		ComputeEngineAPI engine = new ComputeEngineImpl();
 		this.delegate = new UserComputeImpl(storage, engine);
-		this.executor = Executors.newFixedThreadPool(maxThreads);
+		this.executor = Executors.newFixedThreadPool(MAX_THREADS);
 	}
 
 
@@ -36,7 +36,7 @@ public class MultithreadedNetworkAPI implements UserComputeAPI {
 		Callable<List<Integer>> task = () -> {
 			System.out.println("Network API WRITE to: " + outputSource);
 
-			List<Integer> factors = delegate.computeFactors(inputSource, "output.txt", delimiter);
+			List<Integer> factors = delegate.computeFactors(inputSource, outputSource, delimiter);
 
 			String effectiveDelimiter =
 					(delimiter == null || delimiter.isEmpty()) ? ";" : delimiter;
@@ -64,5 +64,6 @@ public class MultithreadedNetworkAPI implements UserComputeAPI {
 	}
 
 	public void shutdown() {
+		executor.shutdown();
 	}
 }
