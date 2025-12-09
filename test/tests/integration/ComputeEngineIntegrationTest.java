@@ -2,6 +2,7 @@ package tests.integration;
 
 import api.compute.ComputeEngineAPI;
 import impl.ComputeEngineImpl;
+import impl.MultithreadedNetworkAPI;
 import api.user.UserComputeAPI;
 import impl.UserComputeImpl;
 
@@ -27,6 +28,9 @@ public class ComputeEngineIntegrationTest {
 		InMemoryStorageComputeAPI store = new InMemoryStorageComputeAPI(cfg);
 		ComputeEngineAPI engine = new ComputeEngineImpl();
 		UserComputeAPI user = new UserComputeImpl(store, engine);
+		
+		//Satisfies Checkpoint3TestSuite since we have two "real" network API's now
+		UserComputeAPI multiUser = new MultithreadedNetworkAPI();
 
 		var factors = user.computeFactors("input", "output", ",");
 		
