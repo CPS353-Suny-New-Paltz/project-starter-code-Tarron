@@ -1,19 +1,29 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
+plugins {
+	id 'java'
+    id 'eclipse'
+    id 'com.google.protobuf' version '0.9.4'
+}
 
 eclipse.project.name = 'TarronsProject' 
 
 sourceSets {
-	main {
-	  java {
-		srcDirs = ['src']
-	  }
-	}
-	test {
-	  java {
-	     srcDirs = ['test']
-	  }
-	 }
+    main {
+        java {
+            srcDirs = [
+                'src',
+                "build/generated/source/proto/main/java",
+                "build/generated/source/proto/main/grpc"
+            ]
+        }
+        proto {
+            srcDir 'src/proto'
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
 }
 
 repositories {
@@ -26,6 +36,29 @@ dependencies {
 	testImplementation('org.mockito:mockito-junit-jupiter:5.10.0')
 	implementation 'fr.inria.gforge.spoon:spoon-core:11.2.0'
 	implementation('com.google.code.gson:gson:2.13.1')
+    implementation "io.grpc:grpc-netty-shaded:1.65.1"
+    implementation "io.grpc:grpc-protobuf:1.65.1"
+    implementation "io.grpc:grpc-stub:1.65.1"
+    implementation "com.google.protobuf:protobuf-java:3.25.1"
+    compileOnly "org.apache.tomcat:annotations-api:6.0.53"
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.1"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.65.1"
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                grpc {}
+            }
+        }
+    }
 }
 
 test {
