@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.user";
+option java_outer_classname = "UserComputeProto";
+
+//Exposes UserComputeAPI over gRPC
+service UserComputeService {
+  rpc ComputeFactors (UserComputeRequest) returns (UserComputeResponse);
+}
+
+message UserComputeRequest {
+  string input_path  = 1;  //Maps to inputSource
+  string output_path = 2;  //Maps to outputSource
+  string delimiter   = 3;  //Same as before (can be empty)
+}
+
+message UserComputeResponse {
+  bool   success = 1;
+  string message = 2;      //Status/Error text
+}
