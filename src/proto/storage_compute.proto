@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.storage";
+option java_outer_classname = "StorageComputeProto";
+
+service StorageComputeService {
+  //Maps to StorageComputeAPI.readInput(inputSource)
+  rpc ReadInput (StorageReadRequest) returns (StorageReadResponse);
+
+  //Maps to StorageComputeAPI.writeOutput(numbers, delimiter)
+  rpc WriteOutput (StorageWriteRequest) returns (StorageWriteResponse);
+}
+
+//Request for reading input numbers from the data store
+message StorageReadRequest {
+  string input_path = 1;
+}
+
+//Response containing the list of input numbers
+message StorageReadResponse {
+  repeated int32 numbers = 1; 
+  bool   success         = 2;
+  string message         = 3;
+}
+
+//Request to write a list of output numbers using a delimiter
+message StorageWriteRequest {
+  repeated int32 numbers = 1;
+  string delimiter       = 2; 
+}
+
+//Response confirming how many numbers were written
+message StorageWriteResponse {
+  bool   success = 1;
+  int32  count   = 2; 
+  string message = 3;
+}
