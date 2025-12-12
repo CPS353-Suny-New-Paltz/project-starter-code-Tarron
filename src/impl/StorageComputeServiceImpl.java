@@ -48,12 +48,15 @@ public class StorageComputeServiceImpl extends StorageComputeServiceGrpc.Storage
                             StreamObserver<StorageWriteResponse> responseObserver) {
 
         List<Integer> numbers = request.getNumbersList();
+        String outputPath = request.getOutputPath();
         String delimiter = request.getDelimiter();
 
         StorageWriteResponse.Builder builder = StorageWriteResponse.newBuilder();
 
         try {
-            int count = delegate.writeOutput(numbers, delimiter);
+        	delegate.writeOutput(numbers, outputPath, delimiter);
+
+            int count = (numbers == null) ? 0 : numbers.size();
             builder.setSuccess(true)
                    .setCount(count)
                    .setMessage("Successfully wrote " + count + " numbers.");

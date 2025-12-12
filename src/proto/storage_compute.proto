@@ -27,7 +27,8 @@ message StorageReadResponse {
 //Request to write a list of output numbers using a delimiter
 message StorageWriteRequest {
   repeated int32 numbers = 1;
-  string delimiter       = 2; 
+  string output_path	 = 2;
+  string delimiter       = 3; 
 }
 
 //Response confirming how many numbers were written

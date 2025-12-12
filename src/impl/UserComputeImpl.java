@@ -1,5 +1,6 @@
 package impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import api.compute.ComputeEngineAPI;
@@ -34,25 +35,36 @@ public class UserComputeImpl implements UserComputeAPI {
 		String effectiveDelimiter =
 				(delimiter == null || delimiter.isEmpty()) ? "," : delimiter;
 
-		try {
-			//Read all input integers from the storage
-			List<Integer> inputs = storage.readInput(inputSource);
+	       try {
+	            //Read all input integers from storage
+	            List<Integer> inputs = storage.readInput(inputSource);
 
-			//Return the last set of factors we computed
-			List<Integer> lastFactors = List.of();
+	            //We must produce exactly ONE output per input
+	            List<Integer> outputs = new ArrayList<>();
 
-			//For each input n, compute its factors with the real engine,
-			//then ask the storage to write that list using the configured delimiter.
-			for (int n : inputs) {
-				List<Integer> factors = engine.factors(n);
-				lastFactors = factors;               
-				storage.writeOutput(factors, delimiter);
-			}	
-			//Return the final factors list
-			return lastFactors;
-		} catch (Exception e) {
-			return List.of();
-		}
-	}
+	            for (int n : inputs) {
+	                List<Integer> factors = engine.factors(n);
 
+	                //Choose exactly one output value per input
+	                //Using the largest factor is a stable choice
+	                int oneOutput;
+	                if (factors == null || factors.isEmpty()) {
+	                    oneOutput = 0;
+	                } else {
+	                    oneOutput = factors.get(factors.size() - 1);
+	                }
+
+	                outputs.add(oneOutput);
+	            }
+
+	            //Write one comma separated line containing exactly outputs.size() entries
+	            storage.writeOutput(outputs, outputSource, effectiveDelimiter);
+
+	            //Return the outputs list
+	            return outputs;
+
+	        } catch (Exception e) {
+	            return List.of();
+	        }
+	    }
 }

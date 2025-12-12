@@ -40,19 +40,18 @@ public class NetworkStorageComputeAPI implements StorageComputeAPI {
 	}
 
 	@Override
-	public int writeOutput(List<Integer> numbers, String delimiter) {
-		StorageWriteRequest request = StorageWriteRequest.newBuilder()
-				.addAllNumbers(numbers)
-				.setDelimiter(delimiter == null ? "" : delimiter)
-				.build();
+	public void writeOutput(List<Integer> numbers, String outputSource, String delimiter) {
+        StorageWriteRequest request = StorageWriteRequest.newBuilder()
+                .addAllNumbers(numbers)
+                .setOutputPath(outputSource)
+                .setDelimiter(delimiter == null ? "" : delimiter)
+                .build();
 
 		StorageWriteResponse response = stub.writeOutput(request);
 
 		if (!response.getSuccess()) {
 			throw new IllegalStateException("Storage write failed: " + response.getMessage());
 		}
-
-		return response.getCount();
 	}
 
 	public void shutdown() {

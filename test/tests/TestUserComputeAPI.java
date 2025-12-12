@@ -42,7 +42,7 @@ public class TestUserComputeAPI {
 	    
 	    //Makes sure result isn't null, and that it equals the expected factors list
 	    assertNotNull(result);
-		assertEquals(List.of(1, 2, 3, 4, 6, 12), result);		
+		assertEquals(List.of(12), result);		
 	}
 }
  

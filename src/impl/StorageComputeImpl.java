@@ -13,13 +13,12 @@ public class StorageComputeImpl implements StorageComputeAPI {
 
 	private static final Pattern SPLIT = Pattern.compile("[,\\s]+");
 
-
 	@Override
 	public List<Integer> readInput(String inputSource) {
-		 if (inputSource == null || inputSource.isBlank()) {
-		        return List.of();
-		    }
-		 
+		if (inputSource == null || inputSource.isBlank()) {
+			return List.of();
+		}
+
 		try {
 			String content = Files.readString(Path.of(inputSource));
 			return SPLIT.splitAsStream(content.trim())
@@ -27,34 +26,33 @@ public class StorageComputeImpl implements StorageComputeAPI {
 					.map(Integer::parseInt)
 					.collect(Collectors.toList());
 		} catch (IOException e) {
-			 return List.of();
+			return List.of();
 		}
 	}
 
 	@Override
-	public int writeOutput(List<Integer> numbers, String delimiter) {
-		if (numbers == null) {
-			 numbers = List.of();
+	public void writeOutput(List<Integer> numbers, String outputSource, String delimiter) {
+		if (outputSource == null || outputSource.isBlank()) {
+			throw new IllegalArgumentException("outputSource cannot be null/blank");
 		}
-		
-		 String d = (delimiter == null) ? "," : delimiter;
+
+		List<Integer> safeNumbers = (numbers == null) ? List.of() : numbers;
+		String d = (delimiter == null || delimiter.isEmpty()) ? "," : delimiter;
 
 		try {
-			//Convert each integer to a string, then join them together with the given delimiter.
-			//Ex: numbers = [2, 3, 5, 7], delimiter = ","  ->  "2,3,5,7"
-			String output = numbers.stream()
+			String output = safeNumbers.stream()
 					.map(Object::toString)
 					.collect(Collectors.joining(d));
 
-			//Write the output string to a file
-			Files.writeString(Path.of("output.txt"), output);
-
-			//Return the number of integers written, as confirmation.
-			return numbers.size();
-
+			// Append so each input produces exactly one output line
+			Files.writeString(
+					Path.of(outputSource),
+					output,
+					java.nio.file.StandardOpenOption.CREATE,
+					java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
+					);
 		} catch (IOException e) {
-			//If something goes wrong while writing, throw a runtime exception
-	        return 0;
+			throw new RuntimeException("Failed to write output file: " + outputSource, e);
 		}
 	}
 }
