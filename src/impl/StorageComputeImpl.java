@@ -47,9 +47,9 @@ public class StorageComputeImpl implements StorageComputeAPI {
 			// Append so each input produces exactly one output line
 			Files.writeString(
 					Path.of(outputSource),
-					output + System.lineSeparator(),
+					output,
 					java.nio.file.StandardOpenOption.CREATE,
-					java.nio.file.StandardOpenOption.APPEND
+					java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
 					);
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to write output file: " + outputSource, e);

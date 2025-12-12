@@ -32,7 +32,7 @@ public class TestStorageComputeAPI {
 		//Use a test-specific output file
         String outFile = "testOutput.txt";
 
-        //Ensure clean slate so repeated test runs don’t append forever
+        //Ensure clean slate so repeated test runs don't append forever
         Files.deleteIfExists(Path.of(outFile));
 
         //Writes back to output file and confirms behavior
