@@ -45,7 +45,8 @@ public class UserComputeServer {
 	 public static void main(String[] args) throws IOException, InterruptedException {
 	        int port = 50051;
 
-	        StorageComputeAPI storage = new StorageComputeImpl();
+	        StorageComputeAPI storage = new NetworkStorageComputeAPI("localhost", 50052);
+
 	        ComputeEngineAPI engine = new ComputeEngineImpl();
 	        UserComputeAPI userApi = new UserComputeImpl(storage, engine);
 
