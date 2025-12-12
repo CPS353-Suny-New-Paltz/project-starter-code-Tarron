@@ -46,7 +46,7 @@ public class UserComputeImpl implements UserComputeAPI {
 			for (int n : inputs) {
 				List<Integer> factors = engine.factors(n);
 				lastFactors = factors;               
-				storage.writeOutput(factors, delimiter);
+			    storage.writeOutput(factors, outputSource, effectiveDelimiter);
 			}	
 			//Return the final factors list
 			return lastFactors;

@@ -4,6 +4,8 @@ import api.process.StorageComputeAPI;
 import impl.StorageComputeImpl;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class TestStorageComputeAPI {
 
 	@Test
-	void smoke() {
+	void smoke() throws Exception {
 		
 		//Creates REAL storage object
 		StorageComputeAPI storage = new StorageComputeImpl();
@@ -27,8 +29,14 @@ public class TestStorageComputeAPI {
 		List<Integer> inputs = storage.readInput("input.txt");
 		assertNotNull(inputs);
 		
-		//Writes back to output file and confirms behavior
-		storage.writeOutput(inputs, ",");
-		assertEquals(inputs, storage.readInput("output.txt"));
+		//Use a test-specific output file
+        String outFile = "testOutput.txt";
+
+        //Ensure clean slate so repeated test runs don’t append forever
+        Files.deleteIfExists(Path.of(outFile));
+
+        //Writes back to output file and confirms behavior
+        storage.writeOutput(inputs, outFile, ",");
+        assertEquals(inputs, storage.readInput(outFile));
 	}	
 }
