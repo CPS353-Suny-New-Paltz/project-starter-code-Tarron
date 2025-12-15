@@ -11,12 +11,15 @@ import org.junit.jupiter.api.Test;
 import api.compute.ComputeEngineAPI;
 import api.user.UserComputeAPI;
 import impl.ComputeEngineImpl;
+import impl.ComputeEngineImplFast;
 import impl.UserComputeImpl;
+import tests.integration.InMemoryIOConfig;
+import tests.integration.InMemoryStorageComputeAPI;
 
 /**
  * I implemented and ran integration benchmark test (PerformanceBenchmarkTest). 
  * For the original implementation, the benchmark results showed a stable median 
- * runtime of about 165 ms, indicating that the workload is CPU-bound.
+ * runtime of about 172.226 ms, indicating that the workload is CPU bound.
  * 
  * I then came to the conclusion that the factor computation (ComputeEngineImpl.factors) 
  * was the bottleneck because the coordinator's primary repetitive CPU work is calling 
@@ -24,63 +27,74 @@ import impl.UserComputeImpl;
  */
 public class PerformanceBenchmarkTest {
 
-    @Test
-    void benchmark_original_implementation_only() {
-        List<Integer> workload = buildWorkload();
+	@Test
+	void fast_version_is_at_least_10_percent_faster() {
+		List<Integer> workload = buildWorkload();
 
-        InMemoryStorageForBenchmark storage = new InMemoryStorageForBenchmark(workload);
-        ComputeEngineAPI engine = new ComputeEngineImpl();
-        UserComputeAPI coordinator = new UserComputeImpl(storage, engine);
+		long originalMedianNs = measureMedianNs(workload, new ComputeEngineImpl());
+		long fastMedianNs = measureMedianNs(workload, new ComputeEngineImplFast());
 
-        //Warm-up
-        for (int i = 0; i < 5; i++) {
-            coordinator.computeFactors("ignored", "ignored", ",");
-        }
+		System.out.println("Original median (ns): " + originalMedianNs);
+		System.out.println("Fast median (ns):     " + fastMedianNs);
 
-        //Take multiple samples and use median
-        long[] samples = new long[9];
-        for (int i = 0; i < samples.length; i++) {
-            long start = System.nanoTime();
-            coordinator.computeFactors("ignored", "ignored", ",");
-            long end = System.nanoTime();
-            samples[i] = end - start;
+		long threshold = (long) (originalMedianNs * 0.90);
+		assertTrue(fastMedianNs <= threshold, "Expected fast version to be at least 10% faster. "
+				+ "Original=" + originalMedianNs + "ns, "
+				+ "Fast=" + fastMedianNs + "ns, "
+				+ "Threshold(90%)=" + threshold + "ns"
+				);
+	}
 
-            //Ensure output was produced
-            assertTrue(storage.getOutputSize() > 0, "Benchmark produced no output; workload may be wrong.");
-        }
+	private static long measureMedianNs(List<Integer> workload, ComputeEngineAPI engine) {
+		//Use the EXISTING test infrastructure (deleted the new one)
+		InMemoryIOConfig cfg = new InMemoryIOConfig(workload);
+		InMemoryStorageComputeAPI storage = new InMemoryStorageComputeAPI(cfg);
 
-        Arrays.sort(samples);
-        long median = samples[samples.length / 2];
+		UserComputeAPI coordinator = new UserComputeImpl(storage, engine);
 
-        System.out.println("Original median runtime (ns): " + median);
-        System.out.println("Samples (ns): " + Arrays.toString(samples));
+		//Warmup
+		for (int i = 0; i < 5; i++) {
+			coordinator.computeFactors("ignored", "ignored", ",");
+		}
 
-        assertTrue(median > 0, "Median runtime should be > 0");
-    }
+		long[] samples = new long[9];
+		for (int i = 0; i < samples.length; i++) {
+			long start = System.nanoTime();
+			coordinator.computeFactors("ignored", "ignored", ",");
+			long end = System.nanoTime();
+			samples[i] = end - start;
 
-    /**
-     * Workload chosen to stress factor-finding.
-     * Uses many large composite numbers so ComputeEngineImpl.factors() does a lot of work.
-     */
-    private static List<Integer> buildWorkload() {
-        List<Integer> nums = new ArrayList<>();
+			//Ensure something was written
+			assertTrue(!cfg.output().isEmpty(), "Benchmark produced no output.");
+			cfg.output().clear();
+		}
 
-        int[] seeds = {
-                1_073_741_824, 
-                1_999_998_000, 
-                1_800_000_000, 
-                1_500_000_000,
-                1_234_567_890, 
-                987_654_320,   
-                864_864_000   
-        };
-        
-        //Repeat enough times to amplify signal
-        for (int r = 0; r < 120; r++) {
-            for (int s : seeds) {
-                nums.add(s);
-            }
-        }
-        return nums;
-    }
+		Arrays.sort(samples);
+		return samples[samples.length / 2];
+	}
+
+	/**
+	 * Workload chosen to stress factor finding.
+	 * Uses many large composite numbers so ComputeEngineImpl.factors() does a lot of work.
+	 */
+	private static List<Integer> buildWorkload() {
+		List<Integer> nums = new ArrayList<>();
+
+		int[] seeds = {
+				1_073_741_824,
+				1_999_998_000,
+				1_800_000_000,
+				1_500_000_000,
+				1_234_567_890,
+				987_654_320,
+				864_864_000
+		};
+
+		for (int r = 0; r < 120; r++) {
+			for (int s : seeds) {
+				nums.add(s);
+			}
+		}
+		return nums;
+	}
 }
