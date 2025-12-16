@@ -18,8 +18,8 @@ import tests.integration.InMemoryStorageComputeAPI;
 
 /**
  * I implemented and ran integration benchmark test (PerformanceBenchmarkTest). 
- * For the original implementation, the benchmark results showed a stable median 
- * runtime of about 172.226 ms, indicating that the workload is CPU bound.
+ * For the original implementation, the benchmark results showed a median 
+ * runtime of about 164.7 ms, indicating that the workload is CPU bound.
  * 
  * I then came to the conclusion that the factor computation (ComputeEngineImpl.factors) 
  * was the bottleneck because the coordinator's primary repetitive CPU work is calling 
