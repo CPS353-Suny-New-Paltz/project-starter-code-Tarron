@@ -55,5 +55,7 @@ public class UserComputeServer {
 	        server.blockUntilShutdown();
 	    }
 	 
-	 
+	 public int getPort() {
+		    return server.getPort();
+		}
 }

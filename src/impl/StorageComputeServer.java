@@ -49,4 +49,8 @@ public class StorageComputeServer {
         server.start();
         server.blockUntilShutdown();
     }
+    
+    public int getPort() {
+        return server.getPort();
+    }
 }
