@@ -24,6 +24,11 @@ import tests.integration.InMemoryStorageComputeAPI;
  * I then came to the conclusion that the factor computation (ComputeEngineImpl.factors) 
  * was the bottleneck because the coordinator's primary repetitive CPU work is calling 
  * ComputeEngineAPI.factors(n) for each input.
+ * 
+ * Benchmark results from one run (before and after):
+ * Original: 164.7 ms
+ * Optimized: 81.4 ms
+ * Improvement: 50.6%
  */
 public class PerformanceBenchmarkTest {
 
