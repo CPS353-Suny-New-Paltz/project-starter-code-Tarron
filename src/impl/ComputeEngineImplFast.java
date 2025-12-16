@@ -10,7 +10,7 @@ import api.compute.ComputeEngineAPI;
  * Bottleneck identification:
  * I measured performance using the benchmark.PerformanceBenchmarkTest I created.
  * Timing used System.nanoTime() after warm up and the median of multiple samples.
- * The original implementation consistently measured about 165–172 ms.
+ * The original implementation consistently measured about 165-172 ms.
  * This told me that the CPU bound work was dominated by repeated divisor checks 
  * in ComputeEngineImpl.factors(n).
  *   

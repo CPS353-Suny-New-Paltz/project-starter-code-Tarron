@@ -30,4 +30,7 @@ Fix:
 A faster compute engine implementation was added that skips even divisors after handling 
 1 and 2, reducing the number of checks while producing the same factor results.
 
-
+## Automated End-to-End gRPC Testing
+Automatically verifies that the entire system actually works end-to-end, not just individual pieces.
+The test starts both gRPC servers on temporary ports, sends a real gRPC request using a client stub,
+and verifies that the expected output is written successfully.
